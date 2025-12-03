@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LIVASA Artistry - Premium Handcrafted Resin Art Studio. Luxury artworks, coasters, trays, and custom pieces.">
+    <meta name="keywords" content="resin art, luxury crafts, handmade, artistry, premium">
+    <meta property="og:title" content="LIVASA Artistry - Premium Resin Art Studio">
+    <meta property="og:description" content="Exquisite resin creations where art meets sophistication.">
+    <meta property="og:type" content="website">
+    <title>LIVASA Artistry - Premium Resin Art Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23fbbf24'>⭐</text></svg>">
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
+        .font-serif { font-family: 'Georgia', 'Times New Roman', serif; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.3); } 50% { box-shadow: 0 0 40px rgba(234, 179, 8, 0.6); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+        @keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow { animation: glow 3s ease-in-out infinite; }
+        .scroll-animate { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .scroll-animate.visible { opacity: 1; transform: translateY(0); }
+
+        .gradient-text { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .product-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+        .product-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 60px rgba(234, 179, 8, 0.3); }
+
+        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; transition: all 0.3s; z-index: 10; }
+        .wishlist-btn:hover, .wishlist-btn.active { background: rgba(251, 191, 36, 0.8); transform: scale(1.2); color: #fbbf24; }
+
+        .counter { font-size: 2.5rem; font-weight: bold; color: #fbbf24; animation: countUp 0.6s ease-out; }
+
+        .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+        .chat-bubble { width: 60px; height: 60px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4); transition: all 0.3s; color: black; font-size: 1.5rem; }
+        .chat-bubble:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(251, 191, 36, 0.6); }
+        .chat-box { position: absolute; bottom: 80px; right: 0; width: 350px; height: 400px; background: rgba(0, 0, 0, 0.95); border: 2px solid #fbbf24; border-radius: 1rem; padding: 1rem; display: none; flex-direction: column; }
+        .chat-box.active { display: flex; }
+        .chat-messages { flex: 1; overflow-y-auto; margin-bottom: 1rem; }
+
+        .newsletter { background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1)); }
+        .newsletter-input { background: rgba(0, 0, 0, 0.5); border: 1px solid #fbbf24; color: white; transition: all 0.3s; }
+        .newsletter-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .newsletter-input:focus { outline: none; box-shadow: 0 0 10px rgba(251, 191, 36, 0.5); background: rgba(0, 0, 0, 0.7); }
+
+        .testimonial-card { background: rgba(30, 30, 30, 0.8); border-left: 4px solid #fbbf24; transition: all 0.3s; }
+        .testimonial-card:hover { transform: translateX(10px); box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2); }
+
+        .cursor-trail { position: fixed; pointer-events: none; width: 8px; height: 8px; background: radial-gradient(circle, #fbbf24, transparent); border-radius: 50%; animation: fadeInUp 0.6s ease-out forwards; }
+
+        @media (max-width: 768px) {
+            .chat-box { width: 280px; height: 350px; }
+            .text-6xl { font-size: 2.5rem; }
+            .text-5xl { font-size: 1.875rem; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden">
+    <div id="app">
+        <!-- Navigation -->
+        <nav id="nav" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+            <div class="max-w-7xl mx-auto px-6 py-5">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-serif font-bold gradient-text">⭐ LIVASA</span>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#home" class="text-gray-300 hover:text-yellow-500 transition-colors font-light">HOME</a>
+                        <a href="#collection" class="text-gray-300 hover:text-yellow-500 transition-colors font-light">COLLECTION</a>
+                        <a href="#contact" class="text-gray-300 hover:text-yellow-500 transition-colors font-light">CONTACT</a>
+                        <button onclick="toggleCart()" class="bg-yellow-500 text-black px-6 py-2.5 rounded hover:bg-yellow-400 font-medium transition-all">🛍️ CART (<span id="cartCount">0</span>)</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section id="home" class="relative pt-32 pb-24 px-6 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-gray-900"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8">
+                        <span class="bg-yellow-500/20 text-yellow-500 px-5 py-2 rounded text-sm tracking-widest border border-yellow-500/30 inline-block animate-fade-in-up" style="animation-delay: 0.2s;">HANDCRAFTED LUXURY</span>
+                        <h1 class="text-6xl md:text-7xl font-serif font-bold leading-tight animate-fade-in-up" style="animation-delay: 0.4s;">Experience the elegance of <span class="gradient-text">LIVASA Artistry</span></h1>
+                        <p class="text-xl text-gray-400 animate-fade-in-up" style="animation-delay: 0.6s;">Exquisite resin creations where art meets sophistication.</p>
+                        <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="bg-yellow-500 text-black px-10 py-4 rounded hover:bg-yellow-400 font-semibold animate-fade-in-up transition-all" style="animation-delay: 0.8s;">EXPLORE NOW →</button>
+                    </div>
+                    <div class="relative animate-float">
+                        <div class="absolute inset-0 bg-yellow-500/20 rounded-lg blur-3xl animate-glow"></div>
+                        <div class="relative bg-gradient-to-br from-gray-800 to-black p-12 rounded-lg border border-yellow-500/20 shadow-2xl">
+                            <div class="space-y-6">
+                                <div class="h-2 bg-gradient-to-r from-yellow-500 via-yellow-600 to-black rounded"></div>
+                                <div class="h-48 bg-gradient-to-br from-gray-700 via-gray-800 to-black rounded"></div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="h-20 bg-gradient-to-br from-yellow-500/30 to-black rounded"></div>
+                                    <div class="h-20 bg-gradient-to-br from-gray-700 to-black rounded"></div>
+                                    <div class="h-20 bg-gradient-to-br from-yellow-500/20 to-black rounded"></div>
+                                </div>
+                                <p class="text-center text-yellow-500 font-serif text-xl italic">Premium Artistry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Badges -->
+        <section class="py-12 px-6 bg-black border-y border-yellow-500/20">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8 text-center text-sm md:text-base">
+                    <div>✅ 100% Satisfaction Guaranteed</div>
+                    <div>🏆 Award-Winning Craftsmanship</div>
+                    <div>⚡ Fast Shipping Worldwide</div>
+                    <div>🔒 Secure Checkout</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animated Stats -->
+        <section class="py-24 px-6 bg-gray-900">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="glass rounded-lg p-8 text-center scroll-animate">
+                        <div class="counter" id="stat1">0</div>
+                        <p class="text-gray-300 mt-2">Happy Customers</p>
+                    </div>
+                    <div class="glass rounded-lg p-8 text-center scroll-animate" style="animation-delay: 0.1s;">
+                        <div class="counter" id="stat2">0</div>
+                        <p class="text-gray-300 mt-2">Artworks Created</p>
+                    </div>
+                    <div class="glass rounded-lg p-8 text-center scroll-animate" style="animation-delay: 0.2s;">
+                        <div class="counter" id="stat3">0</div>
+                        <p class="text-gray-300 mt-2">Years Experience</p>
+                    </div>
+                    <div class="glass rounded-lg p-8 text-center scroll-animate" style="animation-delay: 0.3s;">
+                        <div class="counter" id="stat4">0</div>
+                        <p class="text-gray-300 mt-2">% Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collection -->
+        <section id="collection" class="py-24 px-6 bg-black">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 scroll-animate">
+                    <h2 class="text-5xl md:text-6xl font-serif font-bold mb-6">Featured <span class="gradient-text">Collection</span></h2>
+                    <p class="text-gray-400 text-xl">Discover our exquisite resin art pieces</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4 mb-16 overflow-x-auto pb-2">
+                    <button onclick="filterCategory('all')" class="category-btn px-8 py-3 rounded font-light bg-yellow-500 text-black whitespace-nowrap" data-category="all">ALL</button>
+                    <button onclick="filterCategory('coasters')" class="category-btn px-8 py-3 rounded font-light bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap" data-category="coasters">COASTERS</button>
+                    <button onclick="filterCategory('trays')" class="category-btn px-8 py-3 rounded font-light bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap" data-category="trays">TRAYS</button>
+                    <button onclick="filterCategory('jewelry')" class="category-btn px-8 py-3 rounded font-light bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap" data-category="jewelry">JEWELRY</button>
+                    <button onclick="filterCategory('custom')" class="category-btn px-8 py-3 rounded font-light bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap" data-category="custom">CUSTOM</button>
+                </div>
+                <div id="products" class="grid md:grid-cols-3 gap-10"></div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-24 px-6 bg-gray-900">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 scroll-animate">
+                    <h2 class="text-5xl md:text-6xl font-serif font-bold mb-6">What Customers <span class="gradient-text">Say</span></h2>
+                    <p class="text-gray-400 text-xl">Join 5000+ satisfied clients worldwide</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8" id="testimonials"></div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="py-24 px-6 newsletter">
+            <div class="max-w-2xl mx-auto text-center scroll-animate">
+                <h2 class="text-4xl font-serif font-bold mb-6">Get <span class="gradient-text">10% Off</span> Your First Order</h2>
+                <p class="text-gray-300 mb-8">Subscribe to our newsletter and receive exclusive offers</p>
+                <div class="flex flex-col md:flex-row gap-2">
+                    <input type="email" placeholder="your@email.com" class="newsletter-input flex-1 px-6 py-3 rounded" id="newsletterEmail">
+                    <button onclick="subscribeNewsletter()" class="bg-yellow-500 text-black px-8 py-3 rounded hover:bg-yellow-400 font-bold transition-all whitespace-nowrap">SUBSCRIBE</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black py-16 px-6 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-12 mb-8">
+                    <div>
+                        <h3 class="text-2xl font-serif font-bold gradient-text mb-4">LIVASA Artistry</h3>
+                        <p class="text-gray-400">Premium resin creations for distinguished spaces</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-yellow-500 mb-4">Contact</h4>
+                        <p class="text-gray-400">📧 hello@livasaartistry.com</p>
+                        <p class="text-gray-400">📞 +1 (555) 123-4567</p>
+                        <p class="text-gray-400">⏰ Available 24/7</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-yellow-500 mb-4">Follow Us</h4>
+                        <p class="text-gray-400">📷 @livasaartistry</p>
+                        <p class="text-gray-400">💬 Live Chat Support</p>
+                        <p class="text-gray-400">🌐 Global Shipping</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 pt-8 text-center text-gray-600">
+                    <p>© 2025 LIVASA Artistry. All rights reserved. | <a href="#" class="hover:text-yellow-500">Privacy Policy</a> | <a href="#" class="hover:text-yellow-500">Terms of Service</a></p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Cart Sidebar -->
+        <div id="cartSidebar" class="fixed right-0 top-0 w-96 max-w-full h-screen bg-black border-l border-gray-800 overflow-y-auto hidden z-50">
+            <div class="p-6 sticky top-0 bg-black border-b border-gray-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-serif font-bold gradient-text">SHOPPING CART</h2>
+                    <button onclick="toggleCart()" class="text-2xl hover:text-yellow-500">✕</button>
+                </div>
+            </div>
+            <div id="cartItems" class="p-6 space-y-6"></div>
+        </div>
+
+        <!-- Checkout Modal -->
+        <div id="checkoutModal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center p-4 z-50 overflow-y-auto">
+            <div class="bg-gray-900 rounded-lg border border-yellow-500/30 max-w-2xl w-full">
+                <div class="sticky top-0 p-6 bg-black border-b border-gray-800 flex items-center justify-between">
+                    <h2 class="text-2xl font-serif font-bold gradient-text">CHECKOUT</h2>
+                    <button onclick="closeCheckout()" class="text-2xl hover:text-yellow-500">✕</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <input type="text" id="checkoutName" placeholder="Full Name" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-yellow-500 focus:outline-none">
+                    <input type="email" id="checkoutEmail" placeholder="Email" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-yellow-500 focus:outline-none">
+                    <input type="tel" id="checkoutPhone" placeholder="Phone" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-yellow-500 focus:outline-none">
+                    <textarea id="checkoutAddress" placeholder="Address" rows="3" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-yellow-500 focus:outline-none"></textarea>
+                    <select id="paymentMethod" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-yellow-500 focus:outline-none">
+                        <option value="cod">Cash on Delivery (COD)</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="online">Online Payment</option>
+                    </select>
+                    <div class="bg-gray-800 p-4 rounded border border-gray-700">
+                        <h3 class="text-yellow-500 font-bold mb-3">Order Summary</h3>
+                        <div id="checkoutSummary"></div>
+                        <div class="border-t border-gray-600 pt-2 mt-3 flex justify-between text-lg font-bold text-yellow-500">
+                            <span>Total:</span>
+                            <span id="checkoutTotal">$0.00</span>
+                        </div>
+                    </div>
+                    <button onclick="placeOrder()" class="w-full bg-yellow-500 text-black px-6 py-4 rounded hover:bg-yellow-400 font-semibold transition-all">PLACE ORDER</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Widget -->
+        <div class="chat-widget">
+            <div class="chat-bubble" onclick="toggleChat()">💬</div>
+            <div class="chat-box" id="chatBox">
+                <div class="p-4 border-b border-yellow-500/30">
+                    <h4 class="font-bold text-yellow-500">LIVASA Support</h4>
+                    <p class="text-sm text-gray-400">We're here to help!</p>
+                </div>
+                <div class="chat-messages">
+                    <p class="text-yellow-500 mb-2 text-sm">👋 Hi there! How can we assist you today?</p>
+                </div>
+                <div class="p-4 border-t border-yellow-500/30">
+                    <input type="text" placeholder="Type message..." class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white text-sm focus:border-yellow-500 focus:outline-none">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Golden Waves Coaster Set', price: 85, category: 'coasters', image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&h=600&fit=crop' },
+            { id: 2, name: 'Midnight Galaxy Tray', price: 189, category: 'trays', image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=600&fit=crop' },
+            { id: 3, name: 'Luxe Gold Pendant', price: 65, category: 'jewelry', image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&h=600&fit=crop' },
+            { id: 4, name: 'Elegant Serving Board', price: 225, category: 'trays', image: 'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=600&h=600&fit=crop' },
+            { id: 5, name: 'Noir Collection Coasters', price: 95, category: 'coasters', image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&h=600&fit=crop' },
+            { id: 6, name: 'Custom Art Piece', price: 450, category: 'custom', image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&h=600&fit=crop' },
+        ];
+
+        const testimonials = [
+            { name: 'Sarah M.', city: 'New York', text: 'These resin pieces transformed my home! Absolutely stunning quality.', rating: 5 },
+            { name: 'James T.', city: 'Los Angeles', text: 'Best investment for my office. Clients always ask about them!', rating: 5 },
+            { name: 'Emma R.', city: 'London', text: 'Exceptional craftsmanship. Delivered beautifully packaged.', rating: 5 },
+            { name: 'Michael B.', city: 'Toronto', text: 'Outstanding attention to detail. Worth every penny!', rating: 5 },
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('livasaCart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('livasaWishlist')) || [];
+        let activeCategory = 'all';
+
+        function renderProducts() {
+            const filtered = activeCategory === 'all' ? products : products.filter(p => p.category === activeCategory);
+            const html = filtered.map((p, idx) => `
+                <div class="bg-black rounded-lg overflow-hidden border border-gray-800 hover:border-yellow-500/50 product-card scroll-animate group" style="animation-delay: ${idx * 0.1}s;">
+                    <div class="relative overflow-hidden bg-gray-800 h-80">
+                        <button class="wishlist-btn ${wishlist.includes(p.id) ? 'active' : ''}" onclick="toggleWishlist(${p.id})">♥</button>
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-serif font-bold mb-4 gradient-text">${p.name}</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-3xl font-light text-white">$${p.price}</span>
+                            <button onclick="addToCart(${p.id})" class="bg-yellow-500 text-black px-6 py-3 rounded hover:bg-yellow-400 font-medium transition-all">ADD</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('products').innerHTML = html;
+            triggerScrollAnimations();
+        }
+
+        function renderTestimonials() {
+            const html = testimonials.map((t, idx) => `
+                <div class="testimonial-card rounded-lg p-8 scroll-animate" style="animation-delay: ${idx * 0.1}s;">
+                    <div class="text-yellow-500 mb-2">${'⭐'.repeat(t.rating)}</div>
+                    <p class="text-gray-300 mb-4">"${t.text}"</p>
+                    <p class="font-bold text-yellow-500">${t.name}</p>
+                    <p class="text-gray-400 text-sm">${t.city}</p>
+                </div>
+            `).join('');
+            document.getElementById('testimonials').innerHTML = html;
+            triggerScrollAnimations();
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.className = btn.dataset.category === cat 
+                    ? 'category-btn px-8 py-3 rounded font-light bg-yellow-500 text-black whitespace-nowrap transition-all'
+                    : 'category-btn px-8 py-3 rounded font-light bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap transition-all';
+            });
+            renderProducts();
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.quantity++;
+            else cart.push({...product, quantity: 1});
+            localStorage.setItem('livasaCart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) wishlist = wishlist.filter(w => w !== id);
+            else wishlist.push(id);
+            localStorage.setItem('livasaWishlist', JSON.stringify(wishlist));
+            renderProducts();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('livasaCart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateQuantity(id, qty) {
+            if (qty <= 0) removeFromCart(id);
+            else {
+                const item = cart.find(i => i.id === id);
+                if (item) item.quantity = qty;
+                localStorage.setItem('livasaCart', JSON.stringify(cart));
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+            const html = cart.length === 0 
+                ? '<p class="text-gray-400 text-center py-12">Your cart is empty</p>'
+                : cart.map(item => `
+                    <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                        <h3 class="text-lg font-serif font-bold gradient-text mb-2">${item.name}</h3>
+                        <p class="text-gray-400 mb-3">$${item.price} x ${item.quantity} = <span class="text-yellow-500 font-bold">$${(item.price * item.quantity).toFixed(2)}</span></p>
+                        <div class="flex gap-2 mb-3">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="bg-gray-800 px-2 py-1 rounded hover:bg-gray-700 transition-all">−</button>
+                            <span class="px-4">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="bg-gray-800 px-2 py-1 rounded hover:bg-gray-700 transition-all">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-all">Remove</button>
+                    </div>
+                `).join('');
+            if (cart.length > 0) {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                html += `<div class="border-t border-gray-800 pt-4 mt-6">
+                    <div class="flex justify-between text-xl font-bold text-yellow-500 mb-4">
+                        <span>Total:</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                    <button onclick="openCheckout()" class="w-full bg-yellow-500 text-black px-6 py-3 rounded hover:bg-yellow-400 font-semibold transition-all">CHECKOUT</button>
+                </div>`;
+            }
+            document.getElementById('cartItems').innerHTML = html;
+        }
+
+        function toggleCart() { 
+            document.getElementById('cartSidebar').classList.toggle('hidden');
+            if (!document.getElementById('cartSidebar').classList.contains('hidden')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function toggleChat() { 
+            document.getElementById('chatBox').classList.toggle('active'); 
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) return;
+            const summary = cart.map(item => `
+                <div class="flex justify-between text-gray-300 text-sm mb-2">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+            document.getElementById('checkoutSummary').innerHTML = summary;
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('checkoutTotal').textContent = '$' + total.toFixed(2);
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckout() { 
+            document.getElementById('checkoutModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('checkoutName').value.trim();
+            const email = document.getElementById('checkoutEmail').value.trim();
+            const phone = document.getElementById('checkoutPhone').value.trim();
+            const address = document.getElementById('checkoutAddress').value.trim();
+            const method = document.getElementById('paymentMethod').value;
+            
+            if (!name || !email || !phone || !address) { 
+                alert('Please fill all required fields'); 
+                return; 
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`✓ Order Placed Successfully!\n\nCustomer: ${name}\nEmail: ${email}\nPhone: ${phone}\nPayment: ${method}\nTotal: $${total.toFixed(2)}\n\nThank you for your purchase!`);
+            
+            cart = [];
+            localStorage.setItem('livasaCart', JSON.stringify(cart));
+            updateCartUI();
+            closeCheckout();
+            document.getElementById('cartSidebar').classList.add('hidden');
+            document.getElementById('checkoutName').value = '';
+            document.getElementById('checkoutEmail').value = '';
+            document.getElementById('checkoutPhone').value = '';
+            document.getElementById('checkoutAddress').value = '';
+        }
+
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value.trim();
+            if (!email || !email.includes('@')) { 
+                alert('Please enter a valid email');
+                return;
+            }
+            alert('✓ Subscribed! Check your email for 10% discount code.');
+            document.getElementById('newsletterEmail').value = '';
+        }
+
+        function animateCounter(id, target, duration = 2000) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            const counter = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(counter);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        function triggerScrollAnimations() {
+            const elements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            elements.forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
+                nav.className = 'fixed w-full z-50 transition-all duration-300 bg-black/95 backdrop-blur-lg shadow-2xl';
+            } else {
+                nav.className = 'fixed w-full z-50 transition-all duration-300 bg-transparent';
+            }
+        });
+
+        // Animated counters on scroll
+        let countersTriggered = false;
+        window.addEventListener('scroll', () => {
+            if (!countersTriggered && window.scrollY > 800) {
+                animateCounter('stat1', 5000);
+                animateCounter('stat2', 8500);
+                animateCounter('stat3', 15);
+                animateCounter('stat4', 98);
+                countersTriggered = true;
+            }
+        });
+
+        // Close modals on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('checkoutModal').classList.contains('hidden')) {
+                    closeCheckout();
+                }
+                if (!document.getElementById('cartSidebar').classList.contains('hidden')) {
+                    toggleCart();
+                }
+            }
+        });
+
+        // Initialize on load
+        renderProducts();
+        renderTestimonials();
+        updateCartUI();
+        triggerScrollAnimations();
+    </script>
+</body>
+</html>
